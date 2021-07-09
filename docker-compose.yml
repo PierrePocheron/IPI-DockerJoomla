@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  joomla:
+    build:
+      context: ${DIRECTORY_JOOMLA}
+    ports:
+      - 8080:80
+    volumes:
+      - ${DIRECTORY_CONFIGS}/joomla.conf:/etc/apache2/sites-available/joomla.conf
+      - ${DIRECTORY_CONFIGS}/entrypoint.sh:/entrypoint.sh
+      - ${DIRECTORY_JOOMLA}/${DIRECTORY_JOOMLA_INSTALL}:/var/${DIRECTORY_JOOMLA_INSTALL}
+      - ${DIRECTORY_APP_LOGS_APACHE}:/var/log/apache2/
+      - ./.env/:/.env
+    links:
+      - bdd
+    depends_on:
+      - bdd
+  bdd:
+    image: mysql:5.7.22
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${JOOMLA_USERNAME}
+      MYSQL_PASSWORD: ${JOOMLA_PASSWORD}
+    ports:
+      - 8081:3306
+    volumes:
+      - ${DIRECTORY_BDD}:/${DIRECTORY_BDD_INSTALL}
