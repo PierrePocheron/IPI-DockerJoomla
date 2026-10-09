@@ -11,3 +11,7 @@ Etape 4 : Lancer Docker-Compose en ligne de commande :
 
 Pour arrêter et supprimer les conteneurs :
 -	`docker-compose down` 
+
+## Configuration
+
+Copier `.env.example` en `.env` et y définir les mots de passe avant `docker-compose up`.
